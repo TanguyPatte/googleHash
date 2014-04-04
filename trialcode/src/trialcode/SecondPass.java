@@ -3,7 +3,7 @@ package trialcode;
 import Rectangle;
 
 static class SecondPass {
-    public static List<Rectangle> process(boolean[][] array, int N, int M) {
+	public static List<Rectangle> process(boolean[][] array, int N, int M) {
         List<Rectangle> rectangles = new LinkedList<Rectangle>();
         int x, y, w, h;
         boolean col = true, valid = true;
@@ -39,35 +39,35 @@ static class SecondPass {
         return rectangles;
     }
 
-    public static boolean checkCol(boolean[][] array, int N, int M, int x, int y, int w, int h) {
-        for (int i = y; i < y+h; ++i) {
-            if (!array[i][x+w])
-                return false;
-        }
-        return true;
-    }
-    
-    public static boolean checkRow(const boolean[][] array, int N, int M, int x, int y, int w, int h) {
-        for (int j = x; j < x+w; ++j) {
-            if (!array[y+h][j])
-                return false;
-        }
-        return true;
-    }
-                            
-                            class RectangleComparator implements Comparator<Rectangle> {
-                                public int compare(Rectangle r1, Rectangle r2) {
-                                    int s1 = Math.min(r1.width, r1.height);
-                                    int s2 = Math.min(r2.width, r2.height);
-                                    if (s1 < s2)
-                                        return -1;
-                                    if (s1 == s2)
-                                        return 0;
-                                    return 1;
-                                }
-                            }
-                            
-                            public static List<Rectangle> sortRectangles(List<Rectangle> rectangles) {
+	public static boolean checkCol(boolean[][] array, int N, int M, int x, int y, int w, int h) {
+		for (int i = y; i < y + h; ++i) {
+			if (!array[i][x + w])
+				return false;
+		}
+		return true;
+	}
+
+	public static boolean checkRow(boolean[][] array, int N, int M, int x, int y, int w, int h) {
+		for (int j = x; j < x + w; ++j) {
+			if (!array[y + h][j])
+				return false;
+		}
+		return true;
+	}
+
+	class RectangleComparator implements Comparator<Rectangle> {
+		public int compare(Rectangle r1, Rectangle r2) {
+			int s1 = Math.min(r1.width, r1.height);
+			int s2 = Math.min(r2.width, r2.height);
+			if (s1 < s2)
+				return -1;
+			if (s1 == s2)
+				return 0;
+			return 1;
+		}
+	}
+
+	public static List<Rectangle> sortRectangles(List<Rectangle> rectangles) {
                             Collection<Rectangle>.sort(rectangles, new RectangleComparator());
                         }
 }
