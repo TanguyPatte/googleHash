@@ -1,5 +1,9 @@
 package trialcode;
 
-public class RectangleToSquare {
+import java.util.LinkedList;
 
+public class RectangleToSquare {
+	public static LinkedList<Square> rectangleToSquare(Rectangle rect){
+		
+	}
 }
