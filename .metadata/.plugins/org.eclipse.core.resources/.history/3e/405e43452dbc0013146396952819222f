@@ -1,0 +1,24 @@
+package trialcode;
+
+public class Sharpening {
+	/**
+	 * We assume dimension is pair
+	 * @param picture
+	 * @return
+	 */
+	public static int[][] sharpen(int[][] picture){
+		int dim_Y=picture.length;
+		int dim_X=picture[0].length;
+		int posX=0,posY=0;
+		for (int i=0;i<dim_X/2; i++){
+			for(int j=0;j<dim_Y/2; j++){
+				posX=2*i;
+				posY=2*j;
+				
+			}
+		}
+		return null;
+		
+		
+	}
+}

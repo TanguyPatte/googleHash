@@ -1,0 +1,14 @@
+package trialcode;
+
+public class Sharpening {
+	/**
+	 * We assume dimension is pair
+	 * @param picture
+	 * @return
+	 */
+	public static int[][] sharpen(int[][] picture){
+		return null;
+		
+		
+	}
+}
