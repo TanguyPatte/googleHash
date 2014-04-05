@@ -64,12 +64,19 @@ public class Car {
 	
 	public static double computeScore() {
 		double score = 0.0;
+		boolean[] visitedEdges = new boolean[Edge.edges.length];
+		for (int i = 0 ; i < Edge.edges.length; ++i) 
+			visitedEdges[i] = false;
 		
 		for (Car car : cars) {
 			int currentNode = car.history.get(0);
 			for (int i = 1; i < car.history.size() ; ++i) {
 				int nextNode = car.history.get(i);
-				score += Edge.edges[Node.edgeBetween(currentNode, nextNode)].distance;
+				Edge edge = Edge.edges[Node.edgeBetween(currentNode, nextNode)];
+				if (!visitedEdges[edge.index])
+					score += edge.distance;
+				else
+					visitedEdges[edge.index] = true;
 				currentNode = nextNode;
 			}
 		}
