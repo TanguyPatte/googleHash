@@ -23,22 +23,24 @@ public class Launcher {
 		
 		
 		for (int i=0; i<Car.cars.length; i++){
-			LinkedList<Node> path_car= new LinkedList<Node>();
+			LinkedList<Node> path_car;
 			while (!s.events.isEmpty()) {
+				path_car= new LinkedList<Node>();
 				Car car =  s.events.poll();
 				for (Integer j : car.history)
 					path_car.add(Node.nodes[j]);
+				solution.add(path_car);
 			}
-			solution.add(path_car);
+			
 		}
 		Writing.writeSolution(solution);
 		System.out.println(s.score);
 	}
 	public static void Test3(){
 		Reader.readFile();
-		int step=1000;
-		int nb_population=5;
-		int nb_clones=5;
+		int step=2000;
+		int nb_population=40;
+		int nb_clones=10;
 		PriorityQueue<Simulation> population= new PriorityQueue<Simulation>(100,new Simulation.SimuComparator());
 		PriorityQueue<Simulation> population2= new PriorityQueue<Simulation>(100,new Simulation.SimuComparator());
 		for (int i=0; i<nb_population; i++){
@@ -64,13 +66,15 @@ public class Launcher {
 		Simulation s=population.poll();
 		List<LinkedList<Node>> solution= new LinkedList<LinkedList<Node>>();
 		for (int i=0; i<Car.cars.length; i++){
-			LinkedList<Node> path_car= new LinkedList<Node>();
+			LinkedList<Node> path_car;
 			while (!s.events.isEmpty()) {
+				path_car= new LinkedList<Node>();
 				Car car =  s.events.poll();
 				for (Integer j : car.history)
 					path_car.add(Node.nodes[j]);
+				solution.add(path_car);
 			}
-			solution.add(path_car);
+			
 		}
 		Writing.writeSolution(solution);
 		System.out.println(s.score);
