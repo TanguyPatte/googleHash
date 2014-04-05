@@ -33,11 +33,14 @@ public class Node {
 		edges.add(c_edge);
 	}
 
-	public double evaluate() {
-		double score = 0.0;
+	public double evaluate(int from) {
+		Edge edge = Edge.edges[edgeBetween(from, index)];
+		if (edge.oneWay && edge.to == from)
+			return 0.0;
 
+		double score = 0.0;
 		for (ConnectedEdge c_edge : edges) {
-			Edge edge = Edge.edges[c_edge.edge];
+			edge = Edge.edges[c_edge.edge];
 
 			if (edge.oneWay && edge.to == index)
 				continue;
@@ -53,7 +56,7 @@ public class Node {
 		double tot = 0.0;
 
 		for (int i = 0 ; i < edges.size() ; ++i) {
-			scores[i] = Node.nodes[edges.get(i).to].evaluate();
+			scores[i] = Node.nodes[edges.get(i).to].evaluate(index);
 			tot += scores[i];
 		}
 
