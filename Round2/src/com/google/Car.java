@@ -43,7 +43,7 @@ public class Car {
 		return newCar;
 	}
 	
-	public static double moveCars(double T, int[] visitedEdges, PriorityQueue<Car> events, Double score) {
+	public static double moveCars(double T, int[] visitedEdges, PriorityQueue<Car> events, double score) {
 		double time = 0;
 		
 		while (time <= T) {
@@ -53,7 +53,7 @@ public class Car {
 			// Check the time
 			time = car.nextNodeArrivalTime;
 			if (time > T)
-				return time;
+				return score;
 			
 			// Update the history of the car
 			car.history.add(car.nextNode);
@@ -63,9 +63,8 @@ public class Car {
 			car.nextNode = Node.nodes[car.currentNode].pickNext(visitedEdges);
 			Edge edge = Edge.edges[Node.edgeBetween(car.currentNode, car.nextNode)];
 			car.nextNodeArrivalTime += edge.cost;
-			if (visitedEdges[edge.index] == 0) {
+			if (visitedEdges[edge.index] == 0) 
 				score += edge.distance;
-			}
 			++visitedEdges[edge.index];
 			
 			//	System.out.println("Time: " + time + " -> Car " + car.index + " arrives to " + car.currentNode + " and goes to " + car.nextNode);
@@ -73,6 +72,6 @@ public class Car {
 			// Add the event to the events queue
 			events.add(car);
 		}
-		return time;
+		return score;
 	}
 }
