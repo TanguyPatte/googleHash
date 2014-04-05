@@ -73,10 +73,10 @@ public class Car {
 			for (int i = 1; i < car.history.size() ; ++i) {
 				int nextNode = car.history.get(i);
 				Edge edge = Edge.edges[Node.edgeBetween(currentNode, nextNode)];
-				if (!visitedEdges[edge.index])
+				if (!visitedEdges[edge.index]) {
 					score += edge.distance;
-				else
 					visitedEdges[edge.index] = true;
+				}
 				currentNode = nextNode;
 			}
 		}
