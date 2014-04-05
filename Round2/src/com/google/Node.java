@@ -11,7 +11,7 @@ public class Node {
 		public int edge;
 		public int to;
 	}
-	
+
 	public static class EdgeScore {
 		public int edge;
 		public double score;
@@ -26,9 +26,10 @@ public class Node {
 			return 1;
 		}
 	}
-	
+
 	public static Node[] nodes;
 	public static double sigma = 0.9;
+	public static int maxDepth = 2;
 
 	public List<ConnectedEdge> edges = new LinkedList<ConnectedEdge>();
 	public final double latitude;
@@ -51,7 +52,7 @@ public class Node {
 		edges.add(c_edge);
 	}
 
-	public double evaluate(int from) {
+	public double evaluate(int from, int depth) {
 		if (!canGoTo(from, index))
 			return 0.0;
 
@@ -60,13 +61,17 @@ public class Node {
 			if (!canGoTo(index, c_edge.to))
 				continue;
 
-			Edge edge = Edge.edges[c_edge.edge];
-			score += edge.distance / edge.cost * Math.exp(-edge.visited/(2.0*sigma*sigma));
+			if (depth > 0) {
+				score += Node.nodes[c_edge.to].evaluate(index, depth-1);
+			} else {
+				Edge edge = Edge.edges[c_edge.edge];
+				score += edge.distance / edge.cost * Math.exp(-edge.visited/(2.0*sigma*sigma));
+			}
 		}
 
 		return score;
 	}
-	
+
 	public int pickNext() {
 		List<EdgeScore> scores = new ArrayList<EdgeScore>();
 		double tot = 0.0;
@@ -74,13 +79,13 @@ public class Node {
 		for (int i = 0 ; i < edges.size() ; ++i) {
 			EdgeScore score = new EdgeScore();
 			score.edge = edges.get(i).to;
-			score.score = Node.nodes[score.edge].evaluate(index);
+			score.score = Node.nodes[score.edge].evaluate(index, maxDepth);
 			tot += score.score;
 			scores.add(score);
 		}
 
 		Collections.sort(scores, new EdgeScoreComparator());
-		
+
 		double rand = Math.random()*tot;
 		double acc = 0.0;
 		for (int i = 0; i < edges.size(); ++i) {
@@ -88,7 +93,7 @@ public class Node {
 			if (acc >= rand)
 				return scores.get(i).edge;
 		}
-		
+
 		return edges.get(edges.size()-1).to; // Never reached
 	}
 
