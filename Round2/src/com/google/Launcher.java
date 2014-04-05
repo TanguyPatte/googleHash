@@ -10,7 +10,7 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Test4();
+		Test3();
 	}
 
 
@@ -36,9 +36,9 @@ public class Launcher {
 	}
 	public static void Test3(){
 		Reader.readFile();
-		int step=54000;
-		int nb_population=1;
-		int nb_clones=1;
+		int step=1000;
+		int nb_population=5;
+		int nb_clones=5;
 		PriorityQueue<Simulation> population= new PriorityQueue<Simulation>(100,new Simulation.SimuComparator());
 		PriorityQueue<Simulation> population2= new PriorityQueue<Simulation>(100,new Simulation.SimuComparator());
 		for (int i=0; i<nb_population; i++){
