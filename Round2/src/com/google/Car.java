@@ -55,7 +55,7 @@ public class Car {
 			car.nextNodeArrivalTime += edge.cost;
 			++edge.visited;
 			
-			System.out.println("Time: " + time + " -> Car " + car.index + " arrives to " + car.currentNode + " and goes to " + car.nextNode);
+		//	System.out.println("Time: " + time + " -> Car " + car.index + " arrives to " + car.currentNode + " and goes to " + car.nextNode);
 			
 			// Add the event to the events queue
 			events.add(car);
