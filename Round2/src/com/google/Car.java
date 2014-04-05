@@ -24,6 +24,7 @@ public class Car {
 	public int currentNode;
 	public int nextNode;
 	public double nextNodeArrivalTime;
+	public List<Integer> history = new LinkedList<Integer>();
 
 	public Car(int index) {
 		this.index = index;
@@ -31,7 +32,18 @@ public class Car {
 		nextNodeArrivalTime = 0.0;
 	}
 
-	public static double moveCars(double T, int[] visitedEdges, List<LinkedList<Integer>> histories, PriorityQueue<Car> events, Double score) {
+	@Override
+	public Car clone() {
+		Car newCar = new Car(index);
+		newCar.currentNode = currentNode;
+		newCar.nextNode = newCar.nextNode;
+		newCar.nextNodeArrivalTime = nextNodeArrivalTime;
+		for (Integer i : history)
+			newCar.history.add(i);
+		return newCar;
+	}
+	
+	public static double moveCars(double T, int[] visitedEdges, PriorityQueue<Car> events, Double score) {
 		double time = 0;
 		
 		while (time <= T) {
@@ -44,7 +56,7 @@ public class Car {
 				return time;
 			
 			// Update the history of the car
-			histories.get(car.index).add(car.nextNode);
+			car.history.add(car.nextNode);
 			car.currentNode = car.nextNode;
 
 			// Peek the next destination
