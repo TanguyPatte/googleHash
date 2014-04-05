@@ -36,7 +36,7 @@ public class Car {
 	public Car clone() {
 		Car newCar = new Car(index);
 		newCar.currentNode = currentNode;
-		newCar.nextNode = newCar.nextNode;
+		newCar.nextNode = nextNode;
 		newCar.nextNodeArrivalTime = nextNodeArrivalTime;
 		for (int i : history)
 			newCar.history.add(i);
