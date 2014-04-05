@@ -9,8 +9,6 @@ public class Edge {
 	public final double cost;
 	public final boolean oneWay;
 	public final int index;
-
-	public int visited;
 	
 	public Edge(int index, int from, int to, double distance, double cost, boolean oneWay) {
 		this.index = index;
@@ -18,7 +16,6 @@ public class Edge {
 		this.to = to;
 		this.distance = distance;
 		this.cost = cost;
-		this.visited = 0;
 		this.oneWay = oneWay;
 	}
 }

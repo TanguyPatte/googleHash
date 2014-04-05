@@ -33,7 +33,7 @@ public class Car {
 		events.add(this);
 	}
 
-	public static void moveCars(double T) {
+	public static void moveCars(double T, int[] visitedEdges) {
 		double time = 0.0;
 
 		while (time <= T) {
@@ -50,10 +50,11 @@ public class Car {
 			car.currentNode = car.nextNode;
 
 			// Peek the next destination
-			car.nextNode = Node.nodes[car.currentNode].pickNext();
+			car.nextNode = Node.nodes[car.currentNode].pickNext(visitedEdges);
 			Edge edge = Edge.edges[Node.edgeBetween(car.currentNode, car.nextNode)];
 			car.nextNodeArrivalTime += edge.cost;
-			++edge.visited;
+			++visitedEdges[edge.index];
+
 			
 		//	System.out.println("Time: " + time + " -> Car " + car.index + " arrives to " + car.currentNode + " and goes to " + car.nextNode);
 			

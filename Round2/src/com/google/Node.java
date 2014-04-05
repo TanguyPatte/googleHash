@@ -29,7 +29,6 @@ public class Node {
 
 	public static Node[] nodes;
 	public static double sigma = 0.9;
-	public static int maxDepth = 2;
 
 	public List<ConnectedEdge> edges = new LinkedList<ConnectedEdge>();
 	public final double latitude;
@@ -52,39 +51,31 @@ public class Node {
 		edges.add(c_edge);
 	}
 
-	public double evaluate(int from, int depth, int[] visitedEdges) {
+	public double evaluate(int from, int[] visitedEdges) {
 		if (!canGoTo(from, index))
 			return 0.0;
 
-		double scoreMax = 0.0;
+		double scoreMax = 0.01;
 		for (ConnectedEdge c_edge : edges) {
 			if (!canGoTo(index, c_edge.to))
 				continue;
 
 			Edge edge = Edge.edges[c_edge.edge];
-			double score = edge.distance / edge.cost * Math.exp(-(edge.visited + visitedEdges[c_edge.edge])/(2.0*sigma*sigma));
-			if (depth > 0) {
-				++visitedEdges[c_edge.edge];
-				score += Node.nodes[c_edge.to].evaluate(index, depth-1, visitedEdges);
-				--visitedEdges[c_edge.edge];
-			}
-			scoreMax = Math.max(scoreMax, score);
+			if (visitedEdges[c_edge.edge] == 0) 
+				scoreMax = Math.max(scoreMax, edge.distance / edge.cost);
 		}
 
 		return scoreMax;
 	}
 
-	public int pickNext() {
+	public int pickNext(int[] visitedEdges) {
 		List<EdgeScore> scores = new ArrayList<EdgeScore>();
-		int[] visitedEdges = new int[Edge.edges.length];
-		for (int i = 0; i < Edge.edges.length; ++i)
-			visitedEdges[i] = 0;
 		double tot = 0.0;
 
 		for (int i = 0 ; i < edges.size() ; ++i) {
 			EdgeScore score = new EdgeScore();
 			score.edge = edges.get(i).to;
-			score.score = Node.nodes[score.edge].evaluate(index, maxDepth, visitedEdges);
+			score.score = Node.nodes[score.edge].evaluate(index, visitedEdges);
 			tot += score.score;
 			scores.add(score);
 		}
@@ -116,6 +107,16 @@ public class Node {
 				return c_edge.edge;
 		}
 		return -1;
+	}
+
+	public static double distanceBetween(int from, int to) {
+		Node fromNode = nodes[from];
+		Node toNode = nodes[to];
+
+		double dx = fromNode.latitude - toNode.latitude;
+		double dy = fromNode.longitude - toNode.longitude;
+
+		return dx*dx+dy+dy;
 	}
 }
 
