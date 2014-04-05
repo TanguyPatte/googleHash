@@ -51,6 +51,9 @@ public class Launcher {
 			System.out.println("Pruning black squares list...");
 			ImageProcessing.prune(nbLines, nbColumns);
 
+			System.out.println("Permute elements...");
+			ImageProcessing.randomPermutation();
+			
 			System.out.println(ImageProcessing.blackSquares.size() + ImageProcessing.whiteDots.size() + " instructions generated !");
 
 			// Check
@@ -70,7 +73,7 @@ public class Launcher {
 
 			System.out.println("Writing output...");
 			String output = Printer.generateOutput(ImageProcessing.blackSquares, ImageProcessing.whiteDots);
-			FileWriter fw=new FileWriter("output2.txt");
+			FileWriter fw=new FileWriter("output.txt");
 			BufferedWriter bw= new BufferedWriter(fw, 8192);
 			bw.write(output);
 			bw.flush();

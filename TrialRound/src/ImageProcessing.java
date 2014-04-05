@@ -60,7 +60,35 @@ public class ImageProcessing {
 		for (int i = 0 ; i < N; ++i) 
 			for (int j = 0; j < M; ++j) 
 				buf1[i][j] = src[i][j];
+		//*
+		for (int k = 0; k < kernelSize; ++k) {
+			for (int i = 0 ; i < N; ++i) 
+				for (int j = 0; j < M; ++j) {
+					if (buf1[i][j])
+						buf2[i][j] = true;
+					else {
+						// a  b  c
+						// d  *  e
+						// f  g  h
+						boolean a = (i > 0   && j > 0  )?buf1[i-1][j-1]:OUT_VALUE;
+						boolean b = (i > 0             )?buf1[i-1][j  ]:OUT_VALUE;
+						boolean c = (i > 0   && j < M-1)?buf1[i-1][j+1]:OUT_VALUE;
+						boolean d = (	        j > 0  )?buf1[i  ][j-1]:OUT_VALUE;
+						boolean e = (		    j < M-1)?buf1[i  ][j+1]:OUT_VALUE;
+						boolean f = (i < N-1 && j > 0  )?buf1[i+1][j-1]:OUT_VALUE;
+						boolean g = (i < N-1           )?buf1[i+1][j  ]:OUT_VALUE;
+						boolean h = (i < N-1 && j < M-1)?buf1[i+1][j+1]:OUT_VALUE;
 
+						buf2[i][j] = (d && a && b) || (b && c && e) || (e && h && g) || (g && f && d);
+					}
+				}
+
+			buf3 = buf1;
+			buf1 = buf2;
+			buf2 = buf3;
+		}
+
+		/*/
 		for (int k = 0; k < kernelSize; ++k) {
 			dilate(buf1, buf2, N, M);
 			buf3 = buf1;
@@ -74,6 +102,7 @@ public class ImageProcessing {
 			buf1 = buf2;
 			buf2 = buf3;
 		}
+		/*/
 
 		for (int i = 0 ; i < N; ++i) 
 			for (int j = 0; j < M; ++j) 
@@ -132,30 +161,88 @@ public class ImageProcessing {
 
 	public static void prune(int N, int M) {
 		int[][] score = new int[N][M];
+		int[][] erasedIdx = new int[N][M];
+		List<Point> removedPoints = new LinkedList<Point>();
 
 		for (int i = 0 ; i < N; ++i) 
-			for (int j = 0; j < M; ++j)
+			for (int j = 0; j < M; ++j) {
 				score[i][j] = 0;
+				erasedIdx[i][j] = -1;
+			}
 
 		for (Square s : blackSquares) {
 			for (int i = s.center.x-s.S; i <= s.center.x+s.S; ++i) 
-				if (i >= 0 && i < N)
-					for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) 
-						if (j >= 0 && j < M)
-							++score[i][j];
+				for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) 
+					++score[i][j];
+		}
+
+		for (int k = 0; k < whiteDots.size(); ++k) {
+			Point pt = whiteDots.get(k);
+			erasedIdx[pt.x][pt.y] = k;
 		}
 
 		for (int k = 0 ; k < blackSquares.size(); ++k) {
 			Square s = blackSquares.get(k);
 			if (canBeRemoved(score, N, M, s)) {
 				for (int i = s.center.x-s.S; i <= s.center.x+s.S; ++i) 
-					if (i >= 0 && i < N)
-						for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) 
-							if (j >= 0 && j < M)
-								--score[i][j];
+					for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) 
+						--score[i][j];
 				blackSquares.remove(k);
 				--k;
 			}
+		}
+
+		for (int k = 0 ; k < blackSquares.size(); ++k) {
+			Square s = blackSquares.get(k);
+			int gain = 1;
+			int loss = 0;
+
+			for (int i = s.center.x-s.S; i <= s.center.x+s.S; ++i) 
+				for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) {
+					if (score[i][j] == 1) {
+						if (erasedIdx[i][j] != -1)
+							++gain;
+						else
+							++loss;
+					}
+				}
+
+			if (gain > loss) {
+				for (int i = s.center.x-s.S; i <= s.center.x+s.S; ++i) 
+					for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) {
+						if (score[i][j] == 1) {
+							if (erasedIdx[i][j] != -1) {
+								removedPoints.add(whiteDots.get(erasedIdx[i][j]));
+								erasedIdx[i][j] = -1;
+							} else {
+								blackSquares.add(new Square(i, j, 0));
+								++score[i][j];
+							}
+						}
+						--score[i][j];
+					}
+
+				blackSquares.remove(k);
+				--k;
+			}
+		}
+
+		whiteDots.removeAll(removedPoints);
+	}
+
+	public static void randomPermutation() {
+		for (int k = 0 ; k < blackSquares.size(); ++k) {
+			int kp = (k + (int) (Math.random()*blackSquares.size())) % blackSquares.size();
+			Square tmp = blackSquares.get(k);
+			blackSquares.set(k, blackSquares.get(kp));
+			blackSquares.set(kp, tmp);
+		}
+
+		for (int k = 0 ; k < whiteDots.size(); ++k) {
+			int kp = (k + (int) (Math.random()*whiteDots.size())) % whiteDots.size();
+			Point tmp = whiteDots.get(k);
+			whiteDots.set(k, whiteDots.get(kp));
+			whiteDots.set(kp, tmp);
 		}
 	}
 
@@ -170,10 +257,8 @@ public class ImageProcessing {
 
 		for (Square s : blackSquares) {
 			for (int i = s.center.x-s.S; i <= s.center.x+s.S; ++i) 
-				if (i >= 0 && i < N)
-					for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) 
-						if (j >= 0 && j < M)
-							res[i][j] = true;
+				for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) 
+					res[i][j] = true;
 		}
 
 		for (Point pt : whiteDots) 
@@ -184,11 +269,9 @@ public class ImageProcessing {
 
 	private static boolean canBeRemoved(int[][] score, int N, int M, Square s) {
 		for (int i = s.center.x-s.S; i <= s.center.x+s.S; ++i) 
-			if (i >= 0 && i < N)
-				for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) 
-					if (j >= 0 && j < M)
-						if (score[i][j] == 1)
-							return false;
+			for (int j = s.center.y-s.S; j <= s.center.y+s.S; ++j) 
+				if (score[i][j] == 1)
+					return false;
 		return true;
 	}
 }
