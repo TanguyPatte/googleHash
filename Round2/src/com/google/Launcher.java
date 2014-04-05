@@ -16,19 +16,22 @@ public class Launcher {
 
 	public static void Test3(){
 		Reader.readFile();
-		int step=1000;
-		int nb_population=2;
-		int nb_clones=3;
+		int step=54000;
+		int nb_population=1;
+		int nb_clones=1;
 		PriorityQueue<Simulation> population= new PriorityQueue<Simulation>(100,new Simulation.SimuComparator());
 		PriorityQueue<Simulation> population2= new PriorityQueue<Simulation>(100,new Simulation.SimuComparator());
 		for (int i=0; i<nb_population; i++){
 			population.add(new Simulation());
 		}
 		
-		for (int t=0; t<Reader.time; t+=step){
+		for (int t=0; t<54000; t+=step){
 			population2= new PriorityQueue<Simulation>(100,new Simulation.SimuComparator());
-			for (int j=0; j<nb_clones; j++){
+			System.out.println(population.size());
+			
+			for (int j=0; j<nb_population; j++){
 				Simulation s= population.poll();
+				System.out.println(s.score);
 				for (Simulation s2 : s.clone(nb_clones)){
 					s2.launcheSimulation(t,step);
 					population2.add(s2);
@@ -79,7 +82,7 @@ public class Launcher {
 	/**
 	 * Test basic writing and reading
 	 * 
-
+*/
 	public static void Test2(){
 		// Test reading
 		Reader.readFile();
@@ -97,7 +100,7 @@ public class Launcher {
 		Writing.writeSolution(solution);
 		System.out.println(Car.computeScore());
 	}
-	 */
+	 
 
 
 }
