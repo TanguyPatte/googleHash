@@ -35,7 +35,7 @@ public class Node {
 
 	public double evaluate(int from) {
 		Edge edge = Edge.edges[edgeBetween(from, index)];
-		if (edge.oneWay && edge.to == from)
+		if (edge.oneWay && edge.from == from)
 			return 0.0;
 
 		double score = 0.0;
