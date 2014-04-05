@@ -1,27 +1,28 @@
 package com.google;
 
+import java.util.Arrays;
 import java.util.List;
 
 import sun.awt.geom.AreaOp.AddOp;
 
 public class Reader {
 
-	public static int time ;
+	public static double time ;
 	
 	public static void readFile(){
-		List<String> l = IOSimple.readFile("googleTest.txt");
-		System.out.println(l.get(0));
+		List<String> l = IOSimple.readFile("paris_54000.txt");
 		String p[] = l.get(0).split(" ");
+		
 		int initValues[] = new int[p.length];
 		int nbNode = Integer.parseInt(p[0]) ;
 		int nbEdge = Integer.parseInt(p[1]) ;
-		int time = Integer.parseInt(p[2]) ;
+		time = Double.parseDouble(p[2]) ;
 		Reader.time = time;
 		int nbCars = Integer.parseInt(p[3]) ;
 		int firstNode = Integer.parseInt(p[4]) ;
 		int index = 1;
 		Node.nodes = new Node[nbNode];
-		
+		System.out.println(time);
 		Car.cars = new Car[nbCars];
 		for(int i = 0; i< nbCars; i++){
 			Car.cars[i] = new Car(i);
@@ -50,6 +51,5 @@ public class Reader {
 			
 			index++;
 		}
-		
 	}
 }
