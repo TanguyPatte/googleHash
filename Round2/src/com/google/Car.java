@@ -18,7 +18,7 @@ public class Car {
 
 	public static int firstNode;
 	public static Car[] cars;
-	public static PriorityQueue<Car> events = new PriorityQueue<Car>(50000, new CarComparator());
+	public static PriorityQueue<Car> events = new PriorityQueue<Car>(8, new CarComparator());
 
 	public final int index;
 	public List<Integer> history = new LinkedList<Integer>();
@@ -58,5 +58,20 @@ public class Car {
 			// Add the event to the events queue
 			events.add(car);
 		}
+	}
+	
+	public static double computeScore() {
+		double score = 0.0;
+		
+		for (Car car : cars) {
+			int currentNode = car.history.get(0);
+			for (int i = 1; i < car.history.size() ; ++i) {
+				int nextNode = car.history.get(i);
+				score += Edge.edges[Node.edgeBetween(currentNode, nextNode)].distance;
+				currentNode = nextNode;
+			}
+		}
+		
+		return score;
 	}
 }
