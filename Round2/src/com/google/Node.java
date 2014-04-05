@@ -12,9 +12,15 @@ public class Node {
 	public static Node[] nodes;
 	
 	public List<ConnectedEdge> edges = new LinkedList<ConnectedEdge>();
-	public double latitude;
-	public double longitude;
-	public int index;
+	public final double latitude;
+	public final double longitude;
+	public final int index;
+	
+	public Node(int index, double latitude, double longitude) {
+		this.index = index;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 	
 	public void addEdge(Edge edge) {
 		ConnectedEdge c_edge = new ConnectedEdge();
