@@ -41,7 +41,7 @@ public class Node {
 			if (edge.oneWay && edge.to == index)
 				continue;
 
-			score += edge.distance / (edge.cost * (edge.visited + 1));
+			score += edge.distance / edge.cost * Math.exp(-edge.visited/2.0);
 		}
 
 		return score;
