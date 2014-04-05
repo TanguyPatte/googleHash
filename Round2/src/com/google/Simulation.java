@@ -28,23 +28,26 @@ public class Simulation {
 		
 	}
 	public void launcheSimulation(double start, double step){
-		score=Car.moveCars(start + step, visitedEdges, events, score);
+		score = Car.moveCars(start + step, visitedEdges, events, score);
+	}
+	
+	public Simulation clone() {
+		Simulation s = new Simulation();
+		s.visitedEdges = visitedEdges.clone();			
+		s.events.clear(); 
+		for (Car c : events){
+			s.events.add(c.clone());
+
+		}
+		s.score = score;
 		
+		return s;
 	}
 	
 	public List<Simulation> clone(int number_of_clone){
-		LinkedList<Simulation> simus= new LinkedList<Simulation>();
-		for (int i=0; i<number_of_clone; i++){
-			Simulation s=new Simulation();
-			s.visitedEdges=visitedEdges.clone();			
-			s.events= new PriorityQueue<Car>(8, new Car.CarComparator());
-			for (Car c : events){
-				s.events.add(c.clone());
-
-			}
-			s.score=score;
-			simus.add(s);
-		
+		LinkedList<Simulation> simus = new LinkedList<Simulation>();
+		for (int i=0; i<number_of_clone; i++) {
+			simus.add(this.clone());
 		}
 		return simus;
 	}
