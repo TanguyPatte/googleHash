@@ -28,7 +28,7 @@ public class Node {
 	}
 	
 	public static Node[] nodes;
-	public static double sigma = 2.0;
+	public static double sigma = 0.9;
 
 	public List<ConnectedEdge> edges = new LinkedList<ConnectedEdge>();
 	public final double latitude;
