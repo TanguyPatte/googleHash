@@ -18,9 +18,20 @@ public class Reader {
 		int index = 1;
 		Node.nodes = new Node[nbNode];
 		
-		while(index < nbNode){
+		while(index <= nbNode ){
 			String tmp[] = l.get(index).split(" ");
+			Node.nodes[index -1] = new Node(index -1, Double.parseDouble(tmp[0]), Double.parseDouble(tmp[1]));
+			index ++;
+		}
+		System.out.println(l.get(index));
+		System.out.println("nb edge : " + nbEdge);
+		while(index <= nbNode + nbEdge){
+			String tmp[] = l.get(index).split(" ");
+	//		System.out.println(index - nbNode - 1);
+			Node.nodes[Integer.parseInt(tmp[0])].addEdge(new Edge(index - nbNode - 1,Integer.parseInt(tmp[0]),Integer.parseInt(tmp[1]), Double.parseDouble(tmp[4]), Double.parseDouble(tmp[3]), Integer.parseInt(tmp[2]) == 1 ? true :false     ));
 			
+			
+			index++;
 		}
 		
 	}
