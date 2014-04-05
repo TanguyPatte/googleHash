@@ -9,13 +9,33 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Test2();
+		Test3();
 	}
-	
+
+
+	public static void Test3(){
+		Reader.readFile();
+		Simulation s= new Simulation();
+		s.launcheSimulation(0);
+
+		List<LinkedList<Node>> solution= new LinkedList<LinkedList<Node>>();
+		for (int i=0; i<Car.cars.length; i++){
+			LinkedList<Node> path_car= new LinkedList<Node>();
+			while (!s.events.isEmpty()) {
+				Car car =  s.events.poll();
+				for (Integer j : car.history)
+					path_car.add(Node.nodes[j]);
+			}
+			solution.add(path_car);
+		}
+		Writing.writeSolution(solution);
+		System.out.println(s.score);
+	}
+	/**
 	/**
 	 * Test basic writing and reading
 	 * 
-	 */
+
 	public static void Test1(){
 		// Test reading
 		Reader.readFile();
@@ -28,17 +48,17 @@ public class Launcher {
 			test.add(new Node(10, 3,3));
 			fake_solution.add(test);
 		}
-		
+
 		Car[] cars= Car.cars;
 		Car.moveCars(1000);
-		
+
 		Writing.writeSolution(fake_solution);
 	}
-	
+
 	/**
 	 * Test basic writing and reading
 	 * 
-	 */
+
 	public static void Test2(){
 		// Test reading
 		Reader.readFile();
@@ -56,6 +76,7 @@ public class Launcher {
 		Writing.writeSolution(solution);
 		System.out.println(Car.computeScore());
 	}
+	 */
 
 
 }
