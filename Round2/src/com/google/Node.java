@@ -34,8 +34,9 @@ public class Node {
 	}
 
 	public double evaluate(int from) {
-		canGoTo(from, index);
-		
+		if (!canGoTo(from, index))
+			return 0.0;
+
 		double score = 0.0;
 		for (ConnectedEdge c_edge : edges) {
 			if (canGoTo(index, c_edge.to))
@@ -67,7 +68,7 @@ public class Node {
 
 		return edges.get(edges.size()-1).to; // Never reached
 	}
-	
+
 	public static boolean canGoTo(int from, int to) {
 		Edge edge = Edge.edges[edgeBetween(from, to)];
 		if (!edge.oneWay)
