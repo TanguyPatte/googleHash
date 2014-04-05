@@ -51,7 +51,9 @@ public class Car {
 
 			// Peek the next destination
 			car.nextNode = Node.nodes[car.currentNode].pickNext();
-			car.nextNodeArrivalTime += Edge.edges[Node.edgeBetween(car.currentNode, car.nextNode)].cost;
+			Edge edge = Edge.edges[Node.edgeBetween(car.currentNode, car.nextNode)];
+			car.nextNodeArrivalTime += edge.cost;
+			++edge.visited;
 			
 			System.out.println("Time: " + time + " -> Car " + car.index + " arrives to " + car.currentNode + " and goes to " + car.nextNode);
 			
