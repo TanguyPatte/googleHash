@@ -12,6 +12,8 @@ public class Node {
 	public static Node[] nodes;
 	
 	public List<ConnectedEdge> edges = new LinkedList<ConnectedEdge>();
+	public double latitude;
+	public double longitude;
 	public int index;
 	
 	public void addEdge(Edge edge) {
@@ -22,6 +24,21 @@ public class Node {
 		else
 			c_edge.to = edge.to;
 		edges.add(c_edge);
+	}
+	
+	public double evaluate() {
+		double score = 0.0;
+		
+		for (ConnectedEdge c_edge : edges) {
+			Edge edge = Edge.edges[c_edge.edge];
+			
+			if (edge.oneWay && edge.to == index)
+				continue;
+			
+			score += edge.distance / (edge.cost * (edge.visited + 1));
+		}
+		
+		return score;
 	}
 }
 

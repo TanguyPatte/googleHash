@@ -7,7 +7,7 @@ public class Edge {
 	public int to;
 	public double distance;
 	public double cost;
-	public boolean visited;
+	public int visited;
 	public boolean oneWay;
 	public int index;
 }
