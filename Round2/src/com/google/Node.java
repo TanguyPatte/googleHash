@@ -55,7 +55,7 @@ public class Node {
 		if (!canGoTo(from, index))
 			return 0.0;
 
-		double score = 0.0001;
+		double score = 0.0;
 		for (ConnectedEdge c_edge : edges) {
 			if (!canGoTo(index, c_edge.to))
 				continue;
@@ -90,9 +90,8 @@ public class Node {
 		double acc = 0.0;
 		for (int i = 0; i < edges.size(); ++i) {
 			acc += scores.get(i).score;
-			if (acc >= rand) {
+			if (acc >= rand) 
 				return scores.get(i).edge;
-			}
 		}
 
 		return edges.get(edges.size()-1).to; // Never reached
