@@ -52,7 +52,7 @@ public class Node {
 		edges.add(c_edge);
 	}
 
-	public double evaluate(int from, int depth) {
+	public double evaluate(int from, int depth, int[] visitedEdges) {
 		if (!canGoTo(from, index))
 			return 0.0;
 
@@ -62,9 +62,12 @@ public class Node {
 				continue;
 
 			Edge edge = Edge.edges[c_edge.edge];
-			score += edge.distance / edge.cost * Math.exp(-edge.visited/(2.0*sigma*sigma));
-			if (depth > 0) 
-				score += Node.nodes[c_edge.to].evaluate(index, depth-1);
+			score += edge.distance / edge.cost * Math.exp(-(edge.visited + visitedEdges[c_edge.edge])/(2.0*sigma*sigma));
+			if (depth > 0) {
+				int[] newVisitedEdges = visitedEdges.clone();
+				++newVisitedEdges[c_edge.edge];
+				score += Node.nodes[c_edge.to].evaluate(index, depth-1, newVisitedEdges);
+			}
 		}
 
 		return score;
@@ -72,12 +75,15 @@ public class Node {
 
 	public int pickNext() {
 		List<EdgeScore> scores = new ArrayList<EdgeScore>();
+		int[] visitedEdges = new int[Edge.edges.length];
+		for (int i = 0; i < Edge.edges.length; ++i)
+			visitedEdges[i] = 0;
 		double tot = 0.0;
 
 		for (int i = 0 ; i < edges.size() ; ++i) {
 			EdgeScore score = new EdgeScore();
 			score.edge = edges.get(i).to;
-			score.score = Node.nodes[score.edge].evaluate(index, maxDepth);
+			score.score = Node.nodes[score.edge].evaluate(index, maxDepth, visitedEdges);
 			tot += score.score;
 			scores.add(score);
 		}
