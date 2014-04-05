@@ -1,6 +1,8 @@
 package com.google;
 
 public class Edge {
+	public static Edge[] edges;
+	
 	public int from;
 	public int to;
 	public double distance;

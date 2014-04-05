@@ -9,6 +9,8 @@ public class Node {
 		public int to;
 	}
 	
+	public static Node[] nodes;
+	
 	public List<ConnectedEdge> edges = new LinkedList<ConnectedEdge>();
 	public int index;
 	
