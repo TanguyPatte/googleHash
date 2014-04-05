@@ -31,6 +31,7 @@ public class Simulation {
 		score = Car.moveCars(start + step, visitedEdges, events, score);
 	}
 	
+	@Override
 	public Simulation clone() {
 		Simulation s = new Simulation();
 		

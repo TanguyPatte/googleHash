@@ -38,7 +38,7 @@ public class Car {
 		newCar.currentNode = currentNode;
 		newCar.nextNode = newCar.nextNode;
 		newCar.nextNodeArrivalTime = nextNodeArrivalTime;
-		for (Integer i : history)
+		for (int i : history)
 			newCar.history.add(i);
 		return newCar;
 	}
