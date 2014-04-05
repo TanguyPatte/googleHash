@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 public class Car {
 	public static class CarComparator implements Comparator<Car> {
 		public int compare(Car c1, Car c2) {
-			if (c1.nextNodeArrivalTime < c2.nextNodeArrivalTime)
+			if (c1.nextNodeArrivalTime > c2.nextNodeArrivalTime)
 				return -1;
 			if (c1.nextNodeArrivalTime == c2.nextNodeArrivalTime)
 				return 0;
