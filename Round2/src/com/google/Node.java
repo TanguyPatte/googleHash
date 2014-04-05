@@ -10,6 +10,7 @@ public class Node {
 	}
 
 	public static Node[] nodes;
+	public static double sigma = 2.0;
 
 	public List<ConnectedEdge> edges = new LinkedList<ConnectedEdge>();
 	public final double latitude;
@@ -41,7 +42,7 @@ public class Node {
 			if (edge.oneWay && edge.to == index)
 				continue;
 
-			score += edge.distance / edge.cost * Math.exp(-edge.visited/2.0);
+			score += edge.distance / edge.cost * Math.exp(-edge.visited/(2.0*sigma*sigma));
 		}
 
 		return score;
