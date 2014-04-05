@@ -2,6 +2,8 @@ package com.google;
 
 import java.util.List;
 
+import sun.awt.geom.AreaOp.AddOp;
+
 public class Reader {
 
 	public static int time ;
@@ -40,6 +42,10 @@ public class Reader {
 			boolean sensunique=Integer.parseInt(tmp[2]) == 1 ? true :false;
 			Edge newEdge=new Edge(index - nbNode - 1,Integer.parseInt(tmp[0]),Integer.parseInt(tmp[1]), Double.parseDouble(tmp[4]), Double.parseDouble(tmp[3]), sensunique    );
 			Node.nodes[Integer.parseInt(tmp[0])].addEdge(newEdge);
+			
+			Node.nodes[Integer.parseInt(tmp[1])].addEdge(newEdge);
+			
+			
 			Edge.edges[index - nbNode - 1]=newEdge;
 			
 			index++;
