@@ -2,7 +2,7 @@ package com.google;
 
 import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.Map;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class Car {
@@ -31,7 +31,7 @@ public class Car {
 		nextNodeArrivalTime = 0.0;
 	}
 
-	public static double moveCars(double T, int[] visitedEdges, Map<Car, LinkedList<Integer>> histories, PriorityQueue<Car> events, Double score) {
+	public static double moveCars(double T, int[] visitedEdges, List<LinkedList<Integer>> histories, PriorityQueue<Car> events, Double score) {
 		double time = 0;
 		
 		while (time <= T) {
@@ -44,7 +44,7 @@ public class Car {
 				return time;
 			
 			// Update the history of the car
-			histories.get(car).add(car.nextNode);
+			histories.get(car.index).add(car.nextNode);
 			car.currentNode = car.nextNode;
 
 			// Peek the next destination
