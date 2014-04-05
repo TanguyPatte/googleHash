@@ -33,22 +33,20 @@ public class Simulation {
 	
 	public Simulation clone() {
 		Simulation s = new Simulation();
-		s.visitedEdges = visitedEdges.clone();			
-		s.events.clear(); 
-		for (Car c : events){
-			s.events.add(c.clone());
-
-		}
+		
+		s.visitedEdges = visitedEdges.clone();	
 		s.score = score;
+		s.events.clear(); 
+		for (Car c : events)
+			s.events.add(c.clone());
 		
 		return s;
 	}
 	
 	public List<Simulation> clone(int number_of_clone){
 		LinkedList<Simulation> simus = new LinkedList<Simulation>();
-		for (int i=0; i<number_of_clone; i++) {
+		for (int i=0; i<number_of_clone; i++) 
 			simus.add(this.clone());
-		}
 		return simus;
 	}
 	
