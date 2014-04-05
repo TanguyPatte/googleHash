@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 public class Simulation {
 	public static class SimuComparator implements Comparator<Simulation> {
 		public int compare(Simulation c1, Simulation c2) {
-			if (c1.score < c2.score)
+			if (c1.score > c2.score)
 				return -1;
 			if (c1.score == c2.score)
 				return 0;
