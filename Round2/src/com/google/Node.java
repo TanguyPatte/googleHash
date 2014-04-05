@@ -60,11 +60,11 @@ public class Node {
 		double acc = 0.0;
 		for (int i = 0; i < edges.size(); ++i) {
 			if (acc >= rand)
-				return i;
+				return edges.get(i).to;
 			acc += scores[i];
 		}
 
-		return edges.size()-1; // Never reached
+		return edges.get(edges.size()-1).to; // Never reached
 	}
 
 	public static int edgeBetween(int from, int to) {
