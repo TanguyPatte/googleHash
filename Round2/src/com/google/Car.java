@@ -15,24 +15,44 @@ public class Car {
 			return 1;
 		}
 	}
-	
+
 	public static int firstNode;
 	public static Car[] cars;
- 	public static PriorityQueue<Car> events = new PriorityQueue<Car>(50000, new CarComparator());
-	
+	public static PriorityQueue<Car> events = new PriorityQueue<Car>(50000, new CarComparator());
+
 	public List<Integer> history = new LinkedList<Integer>();
 	public int currentNode;
 	public int nextNode;
 	public double nextNodeArrivalTime;
-	
+
 	public Car() {
-		history.add(firstNode);
-		currentNode = firstNode;
+		currentNode = nextNode = firstNode;
 		nextNodeArrivalTime = 0.0;
 		events.add(this);
 	}
-	
-	public static void moveCars() {
-		
+
+	public static void moveCars(double T) {
+		double time = 0.0;
+
+		while (time <= T) {
+			// Peek the first car to arrive somewhere
+			Car car = events.poll();
+			
+			// Check the time
+			time = car.nextNodeArrivalTime;
+			if (time > T)
+				return;
+			
+			// Update the history of the car
+			car.history.add(car.nextNode);
+			car.currentNode = car.nextNode;
+
+			// Peek the next destination
+			car.nextNode = Node.nodes[car.currentNode].pickNext();
+			car.nextNodeArrivalTime += Edge.edges[Node.edgeBetween(car.currentNode, car.nextNode)].cost;
+			
+			// Add the event to the events queue
+			events.add(car);
+		}
 	}
 }
