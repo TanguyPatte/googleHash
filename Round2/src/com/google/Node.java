@@ -64,9 +64,9 @@ public class Node {
 			Edge edge = Edge.edges[c_edge.edge];
 			score += edge.distance / edge.cost * Math.exp(-(edge.visited + visitedEdges[c_edge.edge])/(2.0*sigma*sigma));
 			if (depth > 0) {
-				int[] newVisitedEdges = visitedEdges.clone();
-				++newVisitedEdges[c_edge.edge];
-				score += Node.nodes[c_edge.to].evaluate(index, depth-1, newVisitedEdges);
+				++visitedEdges[c_edge.edge];
+				score += Node.nodes[c_edge.to].evaluate(index, depth-1, visitedEdges);
+				--visitedEdges[c_edge.edge];
 			}
 		}
 
