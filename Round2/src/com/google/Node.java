@@ -39,7 +39,7 @@ public class Node {
 
 		double score = 0.0;
 		for (ConnectedEdge c_edge : edges) {
-			if (canGoTo(index, c_edge.to))
+			if (!canGoTo(index, c_edge.to))
 				continue;
 
 			Edge edge = Edge.edges[c_edge.edge];
@@ -54,8 +54,10 @@ public class Node {
 		double tot = 0.0;
 
 		for (int i = 0 ; i < edges.size() ; ++i) {
+			
 			scores[i] = Node.nodes[edges.get(i).to].evaluate(index);
 			tot += scores[i];
+			System.out.println("index "+String.valueOf(edges.get(i).to)+" score " + String.valueOf(scores[i]));
 		}
 
 		double rand = Math.random()*tot;
