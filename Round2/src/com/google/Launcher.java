@@ -9,7 +9,7 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Test1();
+		Test2();
 	}
 	
 	/**
@@ -33,6 +33,27 @@ public class Launcher {
 		Car.moveCars(1000);
 		
 		Writing.writeSolution(fake_solution);
+	}
+	
+	/**
+	 * Test basic writing and reading
+	 * 
+	 */
+	public static void Test2(){
+		// Test reading
+		Reader.readFile();
+		System.out.println("coucou");
+		System.out.println(Reader.time);
+		Car.moveCars(Reader.time);
+		List<LinkedList<Node>> solution= new LinkedList<LinkedList<Node>>();
+		for (int i=0; i<Car.cars.length; i++){
+			LinkedList<Node> path_car= new LinkedList<Node>();
+			for (Integer j : Car.cars[i].history){
+				path_car.add(Node.nodes[j]);
+			}
+			solution.add(path_car);
+		}
+		Writing.writeSolution(solution);
 	}
 
 }
