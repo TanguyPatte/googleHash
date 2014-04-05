@@ -6,7 +6,7 @@ public class Reader {
 
 	
 	public static void readFile(){
-		List<String> l = IOSimple.readFile("paris_54000.txt");
+		List<String> l = IOSimple.readFile("googleTest.txt");
 		System.out.println(l.get(0));
 		String p[] = l.get(0).split(" ");
 		int initValues[] = new int[p.length];
