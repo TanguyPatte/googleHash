@@ -68,13 +68,15 @@ public class Node {
 	}
 	
 	public int pickNext() {
-		List<EdgeScore> scores = new ArrayList<EdgeScore>(edges.size());
+		List<EdgeScore> scores = new ArrayList<EdgeScore>();
 		double tot = 0.0;
 
 		for (int i = 0 ; i < edges.size() ; ++i) {
-			scores.get(i).edge = edges.get(i).to;
-			scores.get(i).score = Node.nodes[scores.get(i).edge].evaluate(index);
-			tot += scores.get(i).score;
+			EdgeScore score = new EdgeScore();
+			score.edge = edges.get(i).to;
+			score.score = Node.nodes[score.edge].evaluate(index);
+			tot += score.score;
+			scores.add(score);
 		}
 
 		Collections.sort(scores, new EdgeScoreComparator());
