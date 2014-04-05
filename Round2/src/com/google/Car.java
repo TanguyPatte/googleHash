@@ -52,8 +52,10 @@ public class Car {
 			
 			// Check the time
 			time = car.nextNodeArrivalTime;
-			if (time > T)
+			if (time > T){
+				events.add(car);
 				return score;
+			}
 			
 			// Update the history of the car
 			car.history.add(car.nextNode);

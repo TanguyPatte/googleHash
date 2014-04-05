@@ -30,6 +30,7 @@ public class Simulation {
 			s.events= new PriorityQueue<Car>(8, new Car.CarComparator());
 			for (Car c : events){
 				s.events.add(c.clone());
+
 			}
 			s.score=score;
 			simus.add(s);

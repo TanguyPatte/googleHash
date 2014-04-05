@@ -16,8 +16,13 @@ public class Launcher {
 	public static void Test3(){
 		Reader.readFile();
 		Simulation s= new Simulation();
-		s.launcheSimulation(0);
-
+		int step=1000;
+		for (int t=0; t<Reader.time; t+=step){
+			Simulation s2=s.clone(1).get(0);
+			s2.launcheSimulation(t);
+			s=s2;
+			System.out.println(t);
+		}
 		List<LinkedList<Node>> solution= new LinkedList<LinkedList<Node>>();
 		for (int i=0; i<Car.cars.length; i++){
 			LinkedList<Node> path_car= new LinkedList<Node>();
