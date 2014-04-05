@@ -46,6 +46,26 @@ public class Node {
 		
 		return score;
 	}
+	
+	public int pickNext() {
+		double[] scores = new double[edges.size()];
+		double tot = 0.0;
+		
+		for (int i = 0 ; i < edges.size() ; ++i) {
+			scores[i] = Node.nodes[edges.get(i).to].evaluate();
+			tot += scores[i];
+		}
+		
+		double rand = Math.random()*tot;
+		double acc = 0.0;
+		for (int i = 0; i < edges.size(); ++i) {
+			if (acc >= rand)
+				return i;
+			acc += scores[i];
+		}
+		
+		return edges.size()-1; // Never reached
+	}
 }
 
 
