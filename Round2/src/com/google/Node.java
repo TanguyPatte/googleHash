@@ -61,12 +61,10 @@ public class Node {
 			if (!canGoTo(index, c_edge.to))
 				continue;
 
-			if (depth > 0) {
+			Edge edge = Edge.edges[c_edge.edge];
+			score += edge.distance / edge.cost * Math.exp(-edge.visited/(2.0*sigma*sigma));
+			if (depth > 0) 
 				score += Node.nodes[c_edge.to].evaluate(index, depth-1);
-			} else {
-				Edge edge = Edge.edges[c_edge.edge];
-				score += edge.distance / edge.cost * Math.exp(-edge.visited/(2.0*sigma*sigma));
-			}
 		}
 
 		return score;
