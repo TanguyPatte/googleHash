@@ -17,6 +17,10 @@ public class Launcher {
 	 * 
 	 */
 	public static void Test1(){
+		// Test reading
+		Reader.readFile();
+		Node[] arrtest=Node.nodes;
+		Edge[] edgetest=Edge.edges;
 		// create a fake array of vehicles
 		List<LinkedList<Node>> fake_solution= new LinkedList<LinkedList<Node>>();
 		for (int i=0; i<8; i++){

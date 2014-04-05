@@ -25,11 +25,15 @@ public class Reader {
 		}
 		System.out.println(l.get(index));
 		System.out.println("nb edge : " + nbEdge);
+		Edge.edges=new Edge[nbEdge];
+		
 		while(index <= nbNode + nbEdge){
 			String tmp[] = l.get(index).split(" ");
 	//		System.out.println(index - nbNode - 1);
-			Node.nodes[Integer.parseInt(tmp[0])].addEdge(new Edge(index - nbNode - 1,Integer.parseInt(tmp[0]),Integer.parseInt(tmp[1]), Double.parseDouble(tmp[4]), Double.parseDouble(tmp[3]), Integer.parseInt(tmp[2]) == 1 ? true :false     ));
-			
+			boolean sensunique=Integer.parseInt(tmp[2]) == 1 ? true :false;
+			Edge newEdge=new Edge(index - nbNode - 1,Integer.parseInt(tmp[0]),Integer.parseInt(tmp[1]), Double.parseDouble(tmp[4]), Double.parseDouble(tmp[3]), sensunique    );
+			Node.nodes[Integer.parseInt(tmp[0])].addEdge(newEdge);
+			Edge.edges[index - nbNode - 1]=newEdge;
 			
 			index++;
 		}
