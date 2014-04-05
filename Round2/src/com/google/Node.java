@@ -1,5 +1,8 @@
 package com.google;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,7 +11,22 @@ public class Node {
 		public int edge;
 		public int to;
 	}
+	
+	public static class EdgeScore {
+		public int edge;
+		public double score;
+	}
 
+	public static class EdgeScoreComparator implements Comparator<EdgeScore> {
+		public int compare(EdgeScore s1, EdgeScore s2) {
+			if (s1.score < s2.score)
+				return -1;
+			if (s1.score == s2.score)
+				return 0;
+			return 1;
+		}
+	}
+	
 	public static Node[] nodes;
 	public static double sigma = 2.0;
 
@@ -39,7 +57,7 @@ public class Node {
 
 		double score = 0.0;
 		for (ConnectedEdge c_edge : edges) {
-			if (canGoTo(index, c_edge.to))
+			if (!canGoTo(index, c_edge.to))
 				continue;
 
 			Edge edge = Edge.edges[c_edge.edge];
@@ -48,22 +66,25 @@ public class Node {
 
 		return score;
 	}
-
+	
 	public int pickNext() {
-		double[] scores = new double[edges.size()];
+		List<EdgeScore> scores = new ArrayList<EdgeScore>(edges.size());
 		double tot = 0.0;
 
 		for (int i = 0 ; i < edges.size() ; ++i) {
-			scores[i] = Node.nodes[edges.get(i).to].evaluate(index);
-			tot += scores[i];
+			scores.get(i).edge = edges.get(i).to;
+			scores.get(i).score = Node.nodes[scores.get(i).edge].evaluate(index);
+			tot += scores.get(i).score;
 		}
 
+		Collections.sort(scores, new EdgeScoreComparator());
+		
 		double rand = Math.random()*tot;
 		double acc = 0.0;
 		for (int i = 0; i < edges.size(); ++i) {
+			acc += scores.get(i).score;
 			if (acc >= rand)
 				return edges.get(i).to;
-			acc += scores[i];
 		}
 
 		return edges.get(edges.size()-1).to; // Never reached
