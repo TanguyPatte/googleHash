@@ -8,6 +8,8 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		IOSimple.readFile("doodle.txt");
+		
 		LinkedList<String> b= new LinkedList<String>();
 		b.add("blabla");
 		b.add("blibli");
