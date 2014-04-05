@@ -1,10 +1,20 @@
 package com.google;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
 public class Simulation {
+	public static class SimuComparator implements Comparator<Simulation> {
+		public int compare(Simulation c1, Simulation c2) {
+			if (c1.score < c2.score)
+				return -1;
+			if (c1.score == c2.score)
+				return 0;
+			return 1;
+		}
+	}
 	int[] visitedEdges;
 	PriorityQueue<Car> events;
 	double score=0.0;
@@ -17,8 +27,8 @@ public class Simulation {
 			events.add(Car.cars[i].clone());
 		
 	}
-	public void launcheSimulation(double start){
-		score=Car.moveCars(start + 1000, visitedEdges, events, score);
+	public void launcheSimulation(double start, double step){
+		score=Car.moveCars(start + step, visitedEdges, events, score);
 		
 	}
 	
