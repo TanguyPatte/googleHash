@@ -28,6 +28,9 @@ public class Launcher {
 			test.add(new Node(10, 3,3));
 			fake_solution.add(test);
 		}
+		
+		Car.moveCars(1000);
+		
 		Writing.writeSolution(fake_solution);
 	}
 
