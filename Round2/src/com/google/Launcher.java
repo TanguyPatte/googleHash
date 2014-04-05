@@ -29,6 +29,7 @@ public class Launcher {
 			fake_solution.add(test);
 		}
 		
+		Car[] cars= Car.cars;
 		Car.moveCars(1000);
 		
 		Writing.writeSolution(fake_solution);
