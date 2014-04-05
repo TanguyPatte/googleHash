@@ -1,8 +1,9 @@
 package com.google;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 public class Car {
@@ -17,11 +18,10 @@ public class Car {
 	}
 
 	public static int firstNode;
+	public static double deltaTime = 1000;
 	public static Car[] cars;
-	public static PriorityQueue<Car> events = new PriorityQueue<Car>(8, new CarComparator());
 
 	public final int index;
-	public List<Integer> history = new LinkedList<Integer>();
 	public int currentNode;
 	public int nextNode;
 	public double nextNodeArrivalTime;
@@ -30,12 +30,11 @@ public class Car {
 		this.index = index;
 		currentNode = nextNode = firstNode;
 		nextNodeArrivalTime = 0.0;
-		events.add(this);
 	}
 
-	public static void moveCars(double T, int[] visitedEdges) {
-		double time = 0.0;
-
+	public static double moveCars(double T, int[] visitedEdges, Map<Car, LinkedList<Integer>> histories, PriorityQueue<Car> events) {
+		double time = 0;
+		
 		while (time <= T) {
 			// Peek the first car to arrive somewhere
 			Car car = events.poll();
@@ -43,10 +42,10 @@ public class Car {
 			// Check the time
 			time = car.nextNodeArrivalTime;
 			if (time > T)
-				return;
+				return time;
 			
 			// Update the history of the car
-			car.history.add(car.nextNode);
+			histories.get(car).add(car.nextNode);
 			car.currentNode = car.nextNode;
 
 			// Peek the next destination
@@ -54,12 +53,38 @@ public class Car {
 			Edge edge = Edge.edges[Node.edgeBetween(car.currentNode, car.nextNode)];
 			car.nextNodeArrivalTime += edge.cost;
 			++visitedEdges[edge.index];
-
 			
-		//	System.out.println("Time: " + time + " -> Car " + car.index + " arrives to " + car.currentNode + " and goes to " + car.nextNode);
+			//	System.out.println("Time: " + time + " -> Car " + car.index + " arrives to " + car.currentNode + " and goes to " + car.nextNode);
 			
 			// Add the event to the events queue
 			events.add(car);
+		}
+		return time;
+	}
+	
+	public static void moveCars(double T) {
+		double time = 0;
+		double bestTime = 0;
+		double score, maxScore = 0;
+		int[] lastVisitedEdges = new int[Edge.edges.length];
+		int[] bestVisitedEdges, visitedEdges;
+		Map<Car, LinkedList<Integer>> lastHistories = new HashMap<Car, LinkedList<Integer>>();
+		Map<Car, LinkedList<Integer>> bestHistories, histories;
+		PriorityQueue<Car> lastEvents = new PriorityQueue<Car>();
+		PriorityQueue<Car> bestEvents, events;
+		
+		while (bestTime <= T) {
+			
+			// Restore the saved state
+			visitedEdges = lastVisitedEdges.clone();
+			histories = lastHistories
+			
+			time = moveCars(deltaTime, visitedEdges, histories);
+			score = computeScore();
+			if (score > maxScore) {
+				maxScore = score;
+				bestVisitedEdges = visitedEdges.clone();
+			}
 		}
 	}
 	
