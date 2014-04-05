@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Reader {
 
+	public static int time ;
 	
 	public static void readFile(){
 		List<String> l = IOSimple.readFile("googleTest.txt");
@@ -13,10 +14,16 @@ public class Reader {
 		int nbNode = Integer.parseInt(p[0]) ;
 		int nbEdge = Integer.parseInt(p[1]) ;
 		int time = Integer.parseInt(p[2]) ;
+		Reader.time = time;
 		int nbCars = Integer.parseInt(p[3]) ;
 		int firstNode = Integer.parseInt(p[4]) ;
 		int index = 1;
 		Node.nodes = new Node[nbNode];
+		
+		Car.cars = new Car[nbCars];
+		for(int i = 0; i< nbCars; i++){
+			Car.cars[i] = new Car(i);
+		}
 		
 		while(index <= nbNode ){
 			String tmp[] = l.get(index).split(" ");
