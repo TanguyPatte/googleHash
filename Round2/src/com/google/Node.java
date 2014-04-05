@@ -19,7 +19,7 @@ public class Node {
 
 	public static class EdgeScoreComparator implements Comparator<EdgeScore> {
 		public int compare(EdgeScore s1, EdgeScore s2) {
-			if (s1.score < s2.score)
+			if (s1.score > s2.score)
 				return -1;
 			if (s1.score == s2.score)
 				return 0;
@@ -86,9 +86,9 @@ public class Node {
 		for (int i = 0; i < edges.size(); ++i) {
 			acc += scores.get(i).score;
 			if (acc >= rand)
-				return edges.get(i).to;
+				return scores.get(i).edge;
 		}
-
+		
 		return edges.get(edges.size()-1).to; // Never reached
 	}
 
