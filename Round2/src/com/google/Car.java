@@ -48,14 +48,13 @@ public class Car {
 		
 		while (time <= T) {
 			// Peek the first car to arrive somewhere
-			Car car = events.poll();
+			Car car = events.peek();
 			
 			// Check the time
 			time = car.nextNodeArrivalTime;
-			if (time > T){
-				events.add(car);
+			if (time > T) 
 				return score;
-			}
+			events.poll();
 			
 			// Update the history of the car
 			car.history.add(car.nextNode);
@@ -69,7 +68,7 @@ public class Car {
 				score += edge.distance;
 			++visitedEdges[edge.index];
 			
-			//	System.out.println("Time: " + time + " -> Car " + car.index + " arrives to " + car.currentNode + " and goes to " + car.nextNode);
+			//System.out.println("Time: " + time + " -> Car " + car.index + " arrives to " + car.currentNode + " and goes to " + car.nextNode);
 			
 			// Add the event to the events queue
 			events.add(car);

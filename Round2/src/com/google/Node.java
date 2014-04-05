@@ -55,17 +55,21 @@ public class Node {
 		if (!canGoTo(from, index))
 			return 0.0;
 
-		double scoreMax = 0.01;
+		double score = 0.0001;
 		for (ConnectedEdge c_edge : edges) {
 			if (!canGoTo(index, c_edge.to))
 				continue;
 
 			Edge edge = Edge.edges[c_edge.edge];
+			//*
+			score += edge.distance / edge.cost * Math.exp(-visitedEdges[c_edge.edge]/(2*sigma*sigma));
+			/*/
 			if (visitedEdges[c_edge.edge] == 0) 
-				scoreMax = Math.max(scoreMax, edge.distance / edge.cost);
+				score = Math.max(score, edge.distance / edge.cost);
+			//*/
 		}
 
-		return scoreMax;
+		return score;
 	}
 
 	public int pickNext(int[] visitedEdges) {
@@ -86,8 +90,9 @@ public class Node {
 		double acc = 0.0;
 		for (int i = 0; i < edges.size(); ++i) {
 			acc += scores.get(i).score;
-			if (acc >= rand)
+			if (acc >= rand) {
 				return scores.get(i).edge;
+			}
 		}
 
 		return edges.get(edges.size()-1).to; // Never reached
