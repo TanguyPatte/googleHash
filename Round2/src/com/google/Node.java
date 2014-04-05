@@ -34,17 +34,14 @@ public class Node {
 	}
 
 	public double evaluate(int from) {
-		Edge edge = Edge.edges[edgeBetween(from, index)];
-		if (edge.oneWay && edge.from == from)
-			return 0.0;
-
+		canGoTo(from, index);
+		
 		double score = 0.0;
 		for (ConnectedEdge c_edge : edges) {
-			edge = Edge.edges[c_edge.edge];
-
-			if (edge.oneWay && edge.to == index)
+			if (canGoTo(index, c_edge.to))
 				continue;
 
+			Edge edge = Edge.edges[c_edge.edge];
 			score += edge.distance / edge.cost * Math.exp(-edge.visited/(2.0*sigma*sigma));
 		}
 
@@ -69,6 +66,13 @@ public class Node {
 		}
 
 		return edges.get(edges.size()-1).to; // Never reached
+	}
+	
+	public static boolean canGoTo(int from, int to) {
+		Edge edge = Edge.edges[edgeBetween(from, to)];
+		if (!edge.oneWay)
+			return true;
+		return edge.from == from;
 	}
 
 	public static int edgeBetween(int from, int to) {
