@@ -23,6 +23,7 @@ public class Reader {
 		int index = 1;
 		Node.nodes = new Node[nbNode];
 		System.out.println(time);
+		Car.firstNode = firstNode;
 		Car.cars = new Car[nbCars];
 		for(int i = 0; i< nbCars; i++){
 			Car.cars[i] = new Car(i);
