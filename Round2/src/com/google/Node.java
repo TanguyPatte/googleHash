@@ -82,6 +82,7 @@ public class Node {
 			score.score = Node.nodes[score.edge].evaluate(index, visitedEdges);
 			tot += score.score;
 			scores.add(score);
+			System.out.println(score.score);
 		}
 
 		Collections.sort(scores, new EdgeScoreComparator());
@@ -90,6 +91,7 @@ public class Node {
 		double acc = 0.0;
 		for (int i = 0; i < edges.size(); ++i) {
 			acc += scores.get(i).score;
+			System.out.println(acc + " - " + rand + " - " + tot);
 			if (acc >= rand) {
 				return scores.get(i).edge;
 			}
