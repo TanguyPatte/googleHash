@@ -10,6 +10,17 @@ public class Node {
 	}
 	
 	public List<ConnectedEdge> edges = new LinkedList<ConnectedEdge>();
+	public int index;
+	
+	public void addEdge(Edge edge) {
+		ConnectedEdge c_edge = new ConnectedEdge();
+		c_edge.edge = edge.index;
+		if (edge.to == index)
+			c_edge.to = edge.from;
+		else
+			c_edge.to = edge.to;
+		edges.add(c_edge);
+	}
 }
 
 

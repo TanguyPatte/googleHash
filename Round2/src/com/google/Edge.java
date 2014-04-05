@@ -7,4 +7,5 @@ public class Edge {
 	public double cost;
 	public boolean visited;
 	public boolean oneWay;
+	public int index;
 }
