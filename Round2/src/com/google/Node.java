@@ -68,20 +68,15 @@ public class Node {
 	}
 	
 	public int pickNext() {
-		List<EdgeScore> scores = new ArrayList<EdgeScore>(edges.size());
+		List<EdgeScore> scores = new ArrayList<EdgeScore>();
 		double tot = 0.0;
 
 		for (int i = 0 ; i < edges.size() ; ++i) {
-<<<<<<< HEAD
-			scores.get(i).edge = edges.get(i).to;
-			scores.get(i).score = Node.nodes[scores.get(i).edge].evaluate(index);
-			tot += scores.get(i).score;
-=======
-			
-			scores[i] = Node.nodes[edges.get(i).to].evaluate(index);
-			tot += scores[i];
-			System.out.println("index "+String.valueOf(edges.get(i).to)+" score " + String.valueOf(scores[i]));
->>>>>>> 8d439726a8bb2ad5afdb647015814f896deb4c79
+			EdgeScore score = new EdgeScore();
+			score.edge = edges.get(i).to;
+			score.score = Node.nodes[score.edge].evaluate(index);
+			tot += score.score;
+			scores.add(score);
 		}
 
 		Collections.sort(scores, new EdgeScoreComparator());
