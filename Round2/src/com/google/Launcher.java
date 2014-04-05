@@ -54,6 +54,8 @@ public class Launcher {
 			solution.add(path_car);
 		}
 		Writing.writeSolution(solution);
+		System.out.println(Car.computeScore());
 	}
+
 
 }
